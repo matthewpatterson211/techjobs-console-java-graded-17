@@ -8,6 +8,8 @@ import java.util.Scanner;
  */
 public class TechJobs {
 
+    private static boolean noResults = false;
+
     static Scanner in = new Scanner(System.in);
 
     public static void main (String[] args) {
@@ -29,6 +31,7 @@ public class TechJobs {
 
         // Allow the user to search until they manually quit
         while (true) {
+
 
             String actionChoice = getUserSelection("View jobs by (type 'x' to quit):", actionChoices);
 
@@ -87,7 +90,13 @@ public class TechJobs {
 
         do {
 
-            System.out.println("\n" + menuHeader);
+            if (noResults) {
+                System.out.println(menuHeader);
+                noResults = false;
+            } else {
+                System.out.println("\n" + menuHeader);
+
+            }
 
             // Print available choices
             for (int j = 0; j < choiceKeys.length; j++) {
@@ -119,14 +128,15 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-        //System.out.println("\n");
 
-        if (someJobs.size() == 0) {
+        if (someJobs.isEmpty()) {
             System.out.println("No Results");
+            noResults = true;
         } else {
+            noResults = false;
             for (HashMap<String, String> someJob : someJobs) {
 
-                System.out.println("*****");
+                System.out.println("\n*****");
 
                 for (Map.Entry<String, String> job : someJob.entrySet()) {
                     String key = job.getKey();
@@ -135,7 +145,7 @@ public class TechJobs {
                     System.out.println(key + ": " + value);
                 }
 
-                System.out.println("*****\n");
+                System.out.println("*****");
             }
         }
     }
